@@ -24,8 +24,8 @@ jobs:
 
     - name: Test with unittest (windows)
       if: matrix.os == 'windows-latest'
-      run: pytest
+      run: python -m pytest
 
     - name: Test with unittest (linux/osx)
       if: matrix.os != 'windows-latest'
-      run: pytest
+      run: python3 -m pytest
