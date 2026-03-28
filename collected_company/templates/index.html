@@ -6,19 +6,19 @@
     <title>Collected Company - MTG Singles Price Aggregator</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-900 text-gray-100">
     <div class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Header -->
         <header class="mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">Collected Company</h1>
-            <p class="text-gray-600">Find the best prices on MTG singles from local stores</p>
+            <h1 class="text-4xl font-bold text-gray-100 mb-2">Collected Company</h1>
+            <p class="text-gray-400">Shop locally for MtG Singles here in Phoenix</p>
         </header>
 
         <!-- Search Form -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="bg-gray-800 rounded-lg shadow-md p-6 mb-6">
             <form id="search-form" class="space-y-4">
                 <div>
-                    <label for="card-search" class="block text-sm font-medium text-gray-700 mb-2">
+                    <label for="card-search" class="block text-sm font-medium text-gray-300 mb-2">
                         Search for a card:
                     </label>
                     <div class="flex gap-2">
@@ -28,84 +28,84 @@
                             name="q"
                             required
                             placeholder="e.g., Lightning Bolt"
-                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            class="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 text-gray-100 placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             autocomplete="off"
                         />
                         <button
                             type="submit"
-                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                             Search
                         </button>
                     </div>
                     <!-- Autocomplete dropdown will go here -->
-                    <div id="autocomplete-results" class="hidden mt-2 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto"></div>
+                    <div id="autocomplete-results" class="hidden mt-2 bg-gray-700 border border-gray-600 rounded-lg shadow-lg max-h-60 overflow-y-auto"></div>
                 </div>
             </form>
         </div>
 
         <!-- Progress Bar -->
         <div id="loading-container" class="hidden mb-4">
-            <div class="bg-gray-200 rounded-full h-2.5 mb-2">
-                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+            <div class="bg-gray-700 rounded-full h-2.5 mb-2">
+                <div id="progress-bar" class="bg-blue-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
             </div>
-            <p id="progress-text" class="text-sm text-gray-600">Searching stores...</p>
+            <p id="progress-text" class="text-sm text-gray-400">Searching stores...</p>
         </div>
 
         <!-- Completion Message -->
-        <div id="completion-message" class="hidden text-green-600 font-semibold mb-4"></div>
+        <div id="completion-message" class="hidden text-green-400 font-semibold mb-4"></div>
 
         <!-- Main content: Sidebar + Results -->
         <div id="main-content" class="hidden flex gap-6">
             <!-- Sidebar: Store/Location Filters + Card Preview -->
             <aside id="filter-sidebar" class="w-48 flex-shrink-0">
-                <div class="bg-white rounded-lg shadow-md p-4 sticky top-4">
-                    <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider mb-3">Filter by Store</h3>
+                <div class="bg-gray-800 rounded-lg shadow-md p-4 sticky top-4">
+                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Filter by Store</h3>
                     <div id="store-filters" class="space-y-3">
                         <!-- Populated dynamically -->
                     </div>
                 </div>
 
                 <!-- Card Header (populated dynamically) -->
-                <div id="card-header" class="hidden bg-white rounded-lg shadow-md p-4 mt-4 sticky top-[calc(100vh-24rem)]">
+                <div id="card-header" class="hidden bg-gray-800 rounded-lg shadow-md p-4 mt-4">
                     <img id="card-image" src="" alt="" class="w-full rounded-lg shadow-sm mb-2" />
-                    <h2 id="card-name" class="text-sm font-bold text-gray-900 mb-1"></h2>
-                    <a id="card-scryfall-link" href="" target="_blank" class="text-xs text-blue-600 hover:underline">
+                    <h2 id="card-name" class="text-sm font-bold text-gray-100 mb-1"></h2>
+                    <a id="card-scryfall-link" href="" target="_blank" class="text-xs text-blue-400 hover:underline">
                         View on Scryfall →
                     </a>
                 </div>
             </aside>
 
             <!-- Results Table -->
-            <div id="results-container" class="flex-1 bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="p-4 border-b border-gray-200">
+            <div id="results-container" class="flex-1 bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <div class="p-4 border-b border-gray-700">
                     <div class="flex gap-4 items-center">
                         <div>
-                            <label for="sort-select" class="text-sm font-medium text-gray-700 mr-2">Sort by:</label>
-                            <select id="sort-select" class="px-3 py-1 border border-gray-300 rounded">
+                            <label for="sort-select" class="text-sm font-medium text-gray-300 mr-2">Sort by:</label>
+                            <select id="sort-select" class="px-3 py-1 bg-gray-700 border border-gray-600 text-gray-100 rounded">
                                 <option value="price">Price (Low to High)</option>
                                 <option value="price-desc">Price (High to Low)</option>
                                 <option value="store">Store Name</option>
                                 <option value="condition">Condition</option>
                             </select>
                         </div>
-                        <span id="filter-count" class="text-sm text-gray-500"></span>
+                        <span id="filter-count" class="text-sm text-gray-400"></span>
                     </div>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                    <table class="min-w-full divide-y divide-gray-700">
+                        <thead class="bg-gray-750">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Set</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Condition</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Foil</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Link</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Store</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Set</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Price</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Condition</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Foil</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Stock</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Link</th>
                             </tr>
                         </thead>
-                        <tbody id="results-tbody" class="bg-white divide-y divide-gray-200">
+                        <tbody id="results-tbody" class="divide-y divide-gray-700">
                             <!-- Results populated by JavaScript -->
                         </tbody>
                     </table>
@@ -114,15 +114,15 @@
         </div>
 
         <!-- Error Messages -->
-        <div id="error-container" class="hidden mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p class="text-red-800" id="error-message"></p>
+        <div id="error-container" class="hidden mt-4 p-4 bg-red-900/50 border border-red-700 rounded-lg">
+            <p class="text-red-300" id="error-message"></p>
         </div>
     </div>
 
     <style>
         /* Highlight animation for new results */
         @keyframes highlight {
-            0% { background-color: #fef3c7; }
+            0% { background-color: rgba(59, 130, 246, 0.15); }
             100% { background-color: transparent; }
         }
 
@@ -131,6 +131,6 @@
         }
     </style>
 
-    <script src="/static/js/search.js?v=4"></script>
+    <script src="/static/js/search.js?v=5"></script>
 </body>
 </html>

@@ -142,7 +142,7 @@ class CardSearcher {
       } else {
         // Multi-location store: store header + indented location checkboxes
         const header = document.createElement("div");
-        header.className = "font-medium text-sm text-gray-900 mb-1";
+        header.className = "font-medium text-sm text-gray-200 mb-1";
         header.textContent = store;
         group.appendChild(header);
 
@@ -160,12 +160,12 @@ class CardSearcher {
 
   _createCheckbox(filterKey, label, className) {
     const wrapper = document.createElement("label");
-    wrapper.className = `flex items-center gap-2 cursor-pointer ${className} text-gray-700 hover:text-gray-900`;
+    wrapper.className = `flex items-center gap-2 cursor-pointer ${className} text-gray-300 hover:text-gray-100`;
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = this.activeFilters.has(filterKey);
-    checkbox.className = "rounded border-gray-300 text-blue-600 focus:ring-blue-500";
+    checkbox.className = "rounded bg-gray-700 border-gray-500 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-800";
     checkbox.addEventListener("change", () => {
       if (checkbox.checked) {
         this.activeFilters.add(filterKey);
@@ -250,35 +250,35 @@ class CardSearcher {
     const storeLink = document.createElement("a");
     storeLink.href = result.store_url;
     storeLink.target = "_blank";
-    storeLink.className = "text-blue-600 hover:underline font-medium";
+    storeLink.className = "text-blue-400 hover:underline font-medium";
     storeLink.textContent = result.store_name;
     storeCell.appendChild(storeLink);
     if (result.location) {
       const locSpan = document.createElement("div");
-      locSpan.className = "text-xs text-gray-500";
+      locSpan.className = "text-xs text-gray-400";
       locSpan.textContent = result.location;
       storeCell.appendChild(locSpan);
     }
 
     // Set
     const setCell = document.createElement("td");
-    setCell.className = "px-6 py-4 text-sm text-gray-600";
+    setCell.className = "px-6 py-4 text-sm text-gray-300";
     setCell.textContent = result.set_name || "-";
 
     // Price
     const priceCell = document.createElement("td");
-    priceCell.className = "px-6 py-4 whitespace-nowrap font-bold";
+    priceCell.className = "px-6 py-4 whitespace-nowrap font-bold text-gray-100";
     priceCell.textContent =
       result.price !== null ? `$${result.price.toFixed(2)}` : "-";
 
     // Condition
     const conditionCell = document.createElement("td");
-    conditionCell.className = "px-6 py-4 whitespace-nowrap";
+    conditionCell.className = "px-6 py-4 whitespace-nowrap text-gray-300";
     conditionCell.textContent = result.condition || "-";
 
     // Foil
     const foilCell = document.createElement("td");
-    foilCell.className = "px-6 py-4 whitespace-nowrap";
+    foilCell.className = "px-6 py-4 whitespace-nowrap text-gray-300";
     foilCell.textContent = result.foil ? "Yes" : "No";
 
     // Stock
@@ -286,12 +286,13 @@ class CardSearcher {
     stockCell.className = "px-6 py-4 whitespace-nowrap";
     if (result.stock_quantity > 0) {
       stockCell.textContent = result.stock_quantity;
-      stockCell.classList.add("text-green-600");
+      stockCell.classList.add("text-green-400");
     } else if (result.stock_quantity === 0) {
       stockCell.textContent = "Out";
-      stockCell.classList.add("text-red-600");
+      stockCell.classList.add("text-red-400");
     } else {
       stockCell.textContent = "-";
+      stockCell.classList.add("text-gray-500");
     }
 
     // Link
@@ -301,11 +302,12 @@ class CardSearcher {
       const link = document.createElement("a");
       link.href = result.product_url;
       link.target = "_blank";
-      link.className = "text-blue-600 hover:underline";
+      link.className = "text-blue-400 hover:underline";
       link.textContent = "View";
       linkCell.appendChild(link);
     } else {
       linkCell.textContent = "-";
+      linkCell.classList.add("text-gray-500");
     }
 
     row.appendChild(storeCell);
