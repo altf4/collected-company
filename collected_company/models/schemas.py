@@ -19,6 +19,7 @@ class StoreResult(BaseModel):
     set_name: Optional[str] = None
     location: Optional[str] = None
     product_url: Optional[str] = None
+    product_image_url: Optional[str] = None
     scraped_at: datetime
     error: Optional[str] = None
 

@@ -53,6 +53,10 @@ class CrystalCommerceScraper(BaseScraper):
                 category_elem = item.select_one("span.category")
                 set_name = category_elem.get_text(strip=True) if category_elem else None
 
+                # Product image
+                img_elem = item.select_one('img[itemprop="image"]')
+                product_image_url = img_elem.get("src") if img_elem else None
+
                 # Product link
                 link_elem = item.select_one('a[itemprop="url"]')
                 product_url = None
@@ -104,6 +108,7 @@ class CrystalCommerceScraper(BaseScraper):
                     set_name=set_name,
                     location=location,
                     product_url=product_url,
+                    product_image_url=product_image_url,
                     scraped_at=datetime.utcnow(),
                 ))
 

@@ -59,20 +59,22 @@
         <div id="main-content" class="hidden flex gap-6">
             <!-- Sidebar: Store/Location Filters + Card Preview -->
             <aside id="filter-sidebar" class="w-48 flex-shrink-0">
-                <div class="bg-gray-800 rounded-lg shadow-md p-4 sticky top-4">
-                    <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Filter by Store</h3>
-                    <div id="store-filters" class="space-y-3">
-                        <!-- Populated dynamically -->
+                <div class="sticky top-4 space-y-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                    <div class="bg-gray-800 rounded-lg shadow-md p-4">
+                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Filter by Store</h3>
+                        <div id="store-filters" class="space-y-3">
+                            <!-- Populated dynamically -->
+                        </div>
                     </div>
-                </div>
 
-                <!-- Card Header (populated dynamically) -->
-                <div id="card-header" class="hidden bg-gray-800 rounded-lg shadow-md p-4 mt-4">
-                    <img id="card-image" src="" alt="" class="w-full rounded-lg shadow-sm mb-2" />
-                    <h2 id="card-name" class="text-sm font-bold text-gray-100 mb-1"></h2>
-                    <a id="card-scryfall-link" href="" target="_blank" class="text-xs text-blue-400 hover:underline">
-                        View on Scryfall →
-                    </a>
+                    <!-- Card Header (populated dynamically) -->
+                    <div id="card-header" class="hidden bg-gray-800 rounded-lg shadow-md p-4">
+                        <img id="card-image" src="" alt="" class="w-full rounded-lg shadow-sm mb-2" />
+                        <h2 id="card-name" class="text-sm font-bold text-gray-100 mb-1"></h2>
+                        <a id="card-scryfall-link" href="" target="_blank" class="text-xs text-blue-400 hover:underline">
+                            View on Scryfall →
+                        </a>
+                    </div>
                 </div>
             </aside>
 
@@ -131,6 +133,6 @@
         }
     </style>
 
-    <script src="/static/js/search.js?v=5"></script>
+    <script src="/static/js/search.js?v=6"></script>
 </body>
 </html>

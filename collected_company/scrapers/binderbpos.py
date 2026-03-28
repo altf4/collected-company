@@ -62,6 +62,7 @@ class BinderPOSScraper(BaseScraper):
             handle = product.get("handle", "")
             product_url = f"{self.store.url}/products/{handle}" if handle else None
             set_name = product.get("setName")
+            product_image_url = product.get("img") or product.get("tcgImage")
 
             for variant in product.get("variants", []):
                 quantity = variant.get("quantity", 0)
@@ -92,6 +93,7 @@ class BinderPOSScraper(BaseScraper):
                     set_name=set_name,
                     location=location,
                     product_url=product_url,
+                    product_image_url=product_image_url,
                     scraped_at=datetime.utcnow(),
                 ))
 

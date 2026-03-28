@@ -6,6 +6,7 @@ class CardSearcher {
     this.storesCompleted = 0;
     this.totalStores = 0;
     this.eventSource = null;
+    this.defaultCardImage = null;
     // Track which store/locations are checked (all on by default)
     this.activeFilters = new Set();
     this.allFilters = new Set();
@@ -195,8 +196,10 @@ class CardSearcher {
       cardImage.src = data.card_image_url;
       cardImage.alt = data.card_name;
       cardImage.classList.remove("hidden");
+      this.defaultCardImage = data.card_image_url;
     } else {
       cardImage.classList.add("hidden");
+      this.defaultCardImage = null;
     }
 
     if (data.scryfall_url) {
@@ -239,9 +242,22 @@ class CardSearcher {
 
   createResultRow(result, isNew) {
     const row = document.createElement("tr");
+    row.className = "hover:bg-gray-700/50 transition-colors";
 
     if (isNew) {
       row.classList.add("new-result-highlight");
+    }
+
+    // Hover: swap card preview image to this result's set-specific image
+    if (result.product_image_url) {
+      row.addEventListener("mouseenter", () => {
+        const img = document.getElementById("card-image");
+        if (img) img.src = result.product_image_url;
+      });
+      row.addEventListener("mouseleave", () => {
+        const img = document.getElementById("card-image");
+        if (img && this.defaultCardImage) img.src = this.defaultCardImage;
+      });
     }
 
     // Store name + location

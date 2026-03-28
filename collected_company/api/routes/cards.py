@@ -75,6 +75,7 @@ async def search_cards_stream(
                             "set_name": result.set_name,
                             "location": result.location,
                             "product_url": result.product_url,
+                            "product_image_url": result.product_image_url,
                             "scraped_at": result.scraped_at.isoformat(),
                         }
                         yield f"event: result\ndata: {json.dumps(result_dict)}\n\n"
