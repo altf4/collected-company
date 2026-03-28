@@ -34,6 +34,20 @@ STORES = [
         },
         "is_active": True,
     },
+    {
+        "name": "Primetime Games",
+        "url": "https://primetimemagic.com",
+        "scraper_type": "binderbpos",
+        "scraper_config": {
+            "shopify_domains": [
+                {"domain": "prime-time-cards-tempe.myshopify.com", "location": "Tempe", "url": "https://primetimetempe.com"},
+                {"domain": "primetimemagicgilbert.myshopify.com", "location": "Gilbert", "url": "https://primetimegilbert.com"},
+                {"domain": "primetimecg.myshopify.com", "location": "Warehouse", "url": "https://primetimemagic.com"},
+            ],
+            "locations": ["Gilbert", "Tempe", "Warehouse"],
+        },
+        "is_active": True,
+    },
 ]
 
 
