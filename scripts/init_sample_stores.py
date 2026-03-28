@@ -79,6 +79,16 @@ STORES = [
         },
         "is_active": True,
     },
+    {
+        "name": "Dream Realm Cards",
+        "url": "https://www.dreamrealmcards.com",
+        "scraper_type": "crystalcommerce",
+        "scraper_config": {
+            "mtg_category_id": "8",
+            "locations": ["Online"],
+        },
+        "is_active": True,
+    },
 ]
 
 

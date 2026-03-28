@@ -87,6 +87,12 @@ class CrystalCommerceScraper(BaseScraper):
                 condition = self._parse_cc_condition(variant_desc)
                 location = self._parse_cc_location(variant_desc)
 
+                # Fall back to configured location for online/single-location stores
+                # where variants lack a location component (e.g. "Near Mint, English")
+                configured_locations = self.config.get("locations", [])
+                if configured_locations and (not location or location not in configured_locations):
+                    location = configured_locations[0]
+
                 # Parse stock quantity
                 qty_elem = in_stock_row.select_one(".variant-qty")
                 stock = self._parse_stock(
