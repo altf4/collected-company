@@ -1,4 +1,4 @@
-name: libmelee test cases
+name: coco test cases
 
 on: [push, pull_request]
 
@@ -8,29 +8,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: ['3.11', '3.12', '3.13']
         os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
 
-    - name: Create and activate virtual environment
-      run: |
-        python -m venv venv
-        source venv/bin/activate
+    - name: Install uv
+      uses: astral-sh/setup-uv@v4
 
-    - name: Install general dependencies (windows)
-      if: matrix.os == 'windows-latest'
-      run: python -m pip install -r requirements.txt
+    - name: Set up Python ${{ matrix.python-version }}
+      run: uv python install ${{ matrix.python-version }}
 
-    - name: Install general dependencies (linux/osx)
-      if: matrix.os != 'windows-latest'
-      run: python3 -m pip install -r requirements.txt
+    - name: Install dependencies
+      run: uv sync
 
-    - name: Test with unittest (windows)
-      if: matrix.os == 'windows-latest'
-      run: python -m pytest
-
-    - name: Test with unittest (linux/osx)
-      if: matrix.os != 'windows-latest'
-      run: python3 -m pytest
+    - name: Run tests
+      run: uv run pytest
