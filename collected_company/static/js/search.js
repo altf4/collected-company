@@ -44,6 +44,12 @@ class CardSearcher {
     this.hideError();
     this.showLoadingState();
 
+    // Reset mobile card preview
+    document.getElementById("card-preview-fab")?.classList.add("hidden");
+    const modal = document.getElementById("card-preview-modal");
+    modal?.classList.add("hidden");
+    modal?.classList.remove("flex");
+
     // Close any existing connection
     if (this.eventSource) {
       this.eventSource.close();
@@ -96,6 +102,10 @@ class CardSearcher {
   _filterKey(result) {
     const loc = result.location || "";
     return `${result.store_name}||${loc}`;
+  }
+
+  _isMobile() {
+    return window.innerWidth < 768;
   }
 
   _filterLabel(key) {
@@ -226,7 +236,28 @@ class CardSearcher {
       cardLink.classList.add("hidden");
     }
 
-    cardHeader.classList.remove("hidden");
+    // On desktop, show card header in sidebar; on mobile, keep it hidden
+    if (!this._isMobile()) {
+      cardHeader.classList.remove("hidden");
+    }
+
+    // Sync mobile modal content
+    const modalImg = document.getElementById("card-image-modal");
+    const modalName = document.getElementById("card-name-modal");
+    const modalLink = document.getElementById("card-scryfall-link-modal");
+    const fab = document.getElementById("card-preview-fab");
+
+    if (modalName) modalName.textContent = data.card_name;
+    if (modalImg && data.card_image_url) {
+      modalImg.src = data.card_image_url;
+      modalImg.alt = data.card_name;
+    }
+    if (modalLink && data.scryfall_url) {
+      modalLink.href = data.scryfall_url;
+    }
+    if (fab && data.card_image_url && this._isMobile()) {
+      fab.classList.remove("hidden");
+    }
   }
 
   renderResults() {
@@ -265,6 +296,15 @@ class CardSearcher {
       row.classList.add("new-result-highlight");
     }
 
+    // Mobile: tap row to navigate to product URL
+    if (result.product_url && this._isMobile()) {
+      row.classList.add("cursor-pointer");
+      row.addEventListener("click", (e) => {
+        if (e.target.closest("a")) return;
+        window.open(result.product_url, "_blank");
+      });
+    }
+
     // Hover: swap card preview image to this result's set-specific image
     if (result.product_image_url) {
       row.addEventListener("mouseenter", () => {
@@ -275,11 +315,12 @@ class CardSearcher {
         const img = document.getElementById("card-image");
         if (img && this.defaultCardImage) img.src = this.defaultCardImage;
       });
+
     }
 
     // Store name + location
     const storeCell = document.createElement("td");
-    storeCell.className = "px-6 py-4 whitespace-nowrap";
+    storeCell.className = "px-3 md:px-6 py-4 whitespace-nowrap";
     const storeLink = document.createElement("a");
     storeLink.href = result.store_url;
     storeLink.target = "_blank";
@@ -293,30 +334,30 @@ class CardSearcher {
       storeCell.appendChild(locSpan);
     }
 
-    // Set
+    // Set (hidden on mobile)
     const setCell = document.createElement("td");
-    setCell.className = "px-6 py-4 text-sm text-gray-300";
+    setCell.className = "hidden md:table-cell px-6 py-4 text-sm text-gray-300";
     setCell.textContent = result.set_name || "-";
 
     // Price
     const priceCell = document.createElement("td");
-    priceCell.className = "px-6 py-4 whitespace-nowrap font-bold text-gray-100";
+    priceCell.className = "px-3 md:px-6 py-4 whitespace-nowrap font-bold text-gray-100";
     priceCell.textContent =
       result.price !== null ? `$${result.price.toFixed(2)}` : "-";
 
     // Condition
     const conditionCell = document.createElement("td");
-    conditionCell.className = "px-6 py-4 whitespace-nowrap text-gray-300";
+    conditionCell.className = "px-3 md:px-6 py-4 whitespace-nowrap text-gray-300";
     conditionCell.textContent = result.condition || "-";
 
-    // Foil
+    // Foil (hidden on mobile)
     const foilCell = document.createElement("td");
-    foilCell.className = "px-6 py-4 whitespace-nowrap text-gray-300";
+    foilCell.className = "hidden md:table-cell px-6 py-4 whitespace-nowrap text-gray-300";
     foilCell.textContent = result.foil ? "Yes" : "No";
 
-    // Stock
+    // Stock (hidden on mobile)
     const stockCell = document.createElement("td");
-    stockCell.className = "px-6 py-4 whitespace-nowrap";
+    stockCell.className = "hidden md:table-cell px-6 py-4 whitespace-nowrap";
     if (result.stock_quantity > 0) {
       stockCell.textContent = result.stock_quantity;
       stockCell.classList.add("text-green-400");
@@ -328,9 +369,9 @@ class CardSearcher {
       stockCell.classList.add("text-gray-500");
     }
 
-    // Link
+    // Link (hidden on mobile — row tap navigates instead)
     const linkCell = document.createElement("td");
-    linkCell.className = "px-6 py-4 whitespace-nowrap";
+    linkCell.className = "hidden md:table-cell px-3 md:px-6 py-4 whitespace-nowrap";
     if (result.product_url) {
       const link = document.createElement("a");
       link.href = result.product_url;
@@ -411,4 +452,19 @@ document.getElementById("search-form").addEventListener("submit", (e) => {
 document.getElementById("sort-select")?.addEventListener("change", () => {
   searcher.sortResults();
   searcher.renderResults();
+});
+
+// Mobile card preview FAB
+document.getElementById("card-preview-fab")?.addEventListener("click", () => {
+  const modal = document.getElementById("card-preview-modal");
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+});
+
+// Close modal on backdrop click
+document.getElementById("card-preview-modal")?.addEventListener("click", (e) => {
+  if (e.target === e.currentTarget) {
+    e.currentTarget.classList.add("hidden");
+    e.currentTarget.classList.remove("flex");
+  }
 });
