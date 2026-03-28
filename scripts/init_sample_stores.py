@@ -20,6 +20,7 @@ STORES = [
         "scraper_config": {
             "shopify_domain": "ggazcards.myshopify.com",
             "location": "All locations",
+            "locations": ["All locations"],
         },
         "is_active": True,
     },
@@ -29,6 +30,7 @@ STORES = [
         "scraper_type": "crystalcommerce",
         "scraper_config": {
             "mtg_category_id": "5643",
+            "locations": ["Casa Grande", "Chandler", "Gilbert", "Glendale", "Tucson"],
         },
         "is_active": True,
     },

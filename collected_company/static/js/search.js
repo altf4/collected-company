@@ -10,18 +10,39 @@ class CardSearcher {
     // Track which store/locations are checked (all on by default)
     this.activeFilters = new Set();
     this.allFilters = new Set();
+    this.filtersLoaded = false;
+  }
+
+  async loadFilters() {
+    try {
+      const res = await fetch("/api/stores/locations");
+      const stores = await res.json();
+      for (const store of stores) {
+        if (store.locations.length === 0) {
+          const key = `${store.name}||`;
+          this.allFilters.add(key);
+          this.activeFilters.add(key);
+        } else {
+          for (const loc of store.locations) {
+            const key = `${store.name}||${loc}`;
+            this.allFilters.add(key);
+            this.activeFilters.add(key);
+          }
+        }
+      }
+      this.renderFilters();
+      this.filtersLoaded = true;
+    } catch (e) {
+      console.error("Failed to load store filters:", e);
+    }
   }
 
   async search(cardName) {
     // Clear previous results
     this.results = [];
     this.storesCompleted = 0;
-    this.activeFilters.clear();
-    this.allFilters.clear();
     this.hideError();
     this.showLoadingState();
-    document.getElementById("main-content").classList.add("hidden");
-    document.getElementById("store-filters").innerHTML = "";
 
     // Close any existing connection
     if (this.eventSource) {
@@ -43,7 +64,6 @@ class CardSearcher {
     this.eventSource.addEventListener("result", (e) => {
       const result = JSON.parse(e.data);
       this.addResult(result);
-      this.renderFilters();
       this.renderResults();
     });
 
@@ -85,9 +105,6 @@ class CardSearcher {
 
   addResult(result) {
     this.results.push(result);
-    const key = this._filterKey(result);
-    this.allFilters.add(key);
-    this.activeFilters.add(key);
     this.sortResults();
   }
 
@@ -214,9 +231,9 @@ class CardSearcher {
 
   renderResults() {
     const tbody = document.getElementById("results-tbody");
-    const mainContent = document.getElementById("main-content");
+    const container = document.getElementById("results-container");
 
-    mainContent.classList.remove("hidden");
+    container.classList.remove("hidden");
 
     const filtered = this.getFilteredResults();
 
@@ -379,6 +396,7 @@ class CardSearcher {
 
 // Initialize searcher
 const searcher = new CardSearcher();
+searcher.loadFilters();
 
 // Handle form submission
 document.getElementById("search-form").addEventListener("submit", (e) => {

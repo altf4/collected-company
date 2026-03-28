@@ -19,6 +19,23 @@ async def list_stores(db: AsyncSession = Depends(get_db)):
     return stores
 
 
+@router.get("/locations")
+async def list_store_locations(db: AsyncSession = Depends(get_db)):
+    """List all active stores with their locations."""
+    result = await db.execute(select(Store).where(Store.is_active == True))
+    stores = result.scalars().all()
+    out = []
+    for store in stores:
+        config = store.scraper_config or {}
+        locations = config.get("locations", [])
+        out.append({
+            "id": store.id,
+            "name": store.name,
+            "locations": locations,
+        })
+    return out
+
+
 @router.post("/{store_id}/toggle", response_model=StoreSchema)
 async def toggle_store(store_id: int, db: AsyncSession = Depends(get_db)):
     """Toggle a store's active status."""
