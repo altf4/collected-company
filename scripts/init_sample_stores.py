@@ -86,6 +86,10 @@ async def create_stores():
         await session.commit()
         print(f"\nCreated {created} store(s)")
 
+    # Dispose engine so asyncio.run() can exit cleanly
+    from collected_company.core.database import engine
+    await engine.dispose()
+
 
 if __name__ == "__main__":
     print("Initializing database with stores...\n")
