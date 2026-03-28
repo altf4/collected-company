@@ -48,6 +48,17 @@ STORES = [
         },
         "is_active": True,
     },
+    {
+        "name": "Play or Draw",
+        "url": "https://playordraw.tcgplayerpro.com",
+        "scraper_type": "tcgplayerpro",
+        "scraper_config": {
+            "storefront_url": "https://playordraw.tcgplayerpro.com",
+            "location": "Avondale",
+            "locations": ["Avondale"],
+        },
+        "is_active": True,
+    },
 ]
 
 
