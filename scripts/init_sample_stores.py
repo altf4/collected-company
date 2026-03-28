@@ -59,6 +59,26 @@ STORES = [
         },
         "is_active": True,
     },
+    {
+        "name": "Authority Games",
+        "url": "https://authoritygames.crystalcommerce.com",
+        "scraper_type": "crystalcommerce",
+        "scraper_config": {
+            "mtg_category_id": "8",
+            "locations": ["Mesa"],
+        },
+        "is_active": True,
+    },
+    {
+        "name": "Authoria Games",
+        "url": "https://athoriagamestempe.crystalcommerce.com",
+        "scraper_type": "crystalcommerce",
+        "scraper_config": {
+            "mtg_category_id": "8",
+            "locations": ["Tempe"],
+        },
+        "is_active": True,
+    },
 ]
 
 

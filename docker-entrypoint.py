@@ -10,7 +10,9 @@ def main():
 
     if not os.path.exists(db_path):
         print("First run: initializing database and stores...")
-        subprocess.run([sys.executable, "scripts/init_sample_stores.py"], check=True)
+    else:
+        print("Syncing stores...")
+    subprocess.run([sys.executable, "scripts/init_sample_stores.py"], check=True)
 
     os.execvp("uvicorn", [
         "uvicorn",

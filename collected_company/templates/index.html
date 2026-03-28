@@ -61,8 +61,11 @@
             <aside id="filter-sidebar" class="w-48 flex-shrink-0">
                 <div class="sticky top-4 space-y-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
                     <div class="bg-gray-800 rounded-lg shadow-md p-4">
-                        <h3 class="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Filter by Store</h3>
-                        <div id="store-filters" class="space-y-3">
+                        <button id="store-filter-toggle" class="flex items-center justify-between w-full text-sm font-semibold text-gray-300 uppercase tracking-wider" onclick="document.getElementById('store-filters').classList.toggle('hidden'); this.querySelector('.toggle-arrow').classList.toggle('rotate-90')">
+                            <span>Filter by Store</span>
+                            <span class="toggle-arrow text-gray-400 transition-transform duration-200">&#9654;</span>
+                        </button>
+                        <div id="store-filters" class="hidden space-y-3 mt-3">
                             <!-- Populated dynamically -->
                         </div>
                     </div>
