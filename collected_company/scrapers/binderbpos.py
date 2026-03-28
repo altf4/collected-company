@@ -59,6 +59,11 @@ class BinderPOSScraper(BaseScraper):
         location = self.config.get("location")
 
         for product in products:
+            # Exact card name match only
+            product_card_name = product.get("cardName", "")
+            if product_card_name.lower() != card_name.lower():
+                continue
+
             handle = product.get("handle", "")
             product_url = f"{self.store.url}/products/{handle}" if handle else None
             set_name = product.get("setName")

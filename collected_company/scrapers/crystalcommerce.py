@@ -1,5 +1,6 @@
 """CrystalCommerce platform scraper for game stores."""
 
+import re
 from typing import List
 from datetime import datetime
 
@@ -92,10 +93,17 @@ class CrystalCommerceScraper(BaseScraper):
                     qty_elem.get_text(strip=True)
                 ) if qty_elem else -1
 
-                # Detect foil from product name
+                # Detect foil and verify exact card name match
                 name_elem = item.select_one("h4.name")
                 name_text = name_elem.get_text(strip=True) if name_elem else ""
                 foil = "foil" in name_text.lower()
+
+                # Strip set codes like "(BLD)" and "- Foil" to get base card name
+                base_name = re.sub(r"\s*\([^)]*\)\s*", " ", name_text)
+                base_name = re.sub(r"\s*-\s*Foil\s*$", "", base_name, flags=re.IGNORECASE)
+                base_name = base_name.strip()
+                if base_name.lower() != card_name.lower():
+                    continue
 
                 results.append(StoreResult(
                     store_id=self.store.id,
