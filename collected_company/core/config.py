@@ -33,7 +33,7 @@ class Settings(BaseSettings):
     sentry_dsn: Optional[str] = None
 
     # CORS
-    cors_origins: list[str] = ["*"]
+    cors_origins: list[str] = []
 
 
 # Global settings instance
